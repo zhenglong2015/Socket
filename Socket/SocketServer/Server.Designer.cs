@@ -83,7 +83,7 @@
             this.txtPoint.Name = "txtPoint";
             this.txtPoint.Size = new System.Drawing.Size(97, 21);
             this.txtPoint.TabIndex = 5;
-            this.txtPoint.Text = "50000";
+            this.txtPoint.Text = "9050";
             // 
             // txtSendMsg
             // 

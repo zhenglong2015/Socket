@@ -25,7 +25,7 @@ namespace SocketServer
         {
             //在服务端创建一个负责监听的Ip地址和端口的Socket
             Socket socketWatch = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPAddress ip = IPAddress.Any;
+            IPAddress ip = IPAddress.Parse("192.168.1.202");
             //创建端口号对象
             IPEndPoint point = new IPEndPoint(ip, Convert.ToInt32(txtPoint.Text));
             socketWatch.Bind(point);
@@ -52,7 +52,8 @@ namespace SocketServer
                 //将远程连接的Ip地址和连接存入集合中
                 dic.Add(socketSend.RemoteEndPoint.ToString(), socketSend);
                 cobIPList.Items.Add(socketSend.RemoteEndPoint.ToString());
-                ShowMsg(socketWatch.RemoteEndPoint.ToString() + ":" + "连接成功！");
+                MessageBox.Show("连接成功");
+              //  ShowMsg(socketWatch.RemoteEndPoint.ToString() + ":" + "连接成功！");
 
                 Thread th = new Thread(Recviec);
                 th.IsBackground = true;
@@ -108,6 +109,7 @@ namespace SocketServer
         {
             OpenFileDialog open = new OpenFileDialog();
             open.Title = "请选择要发送的文件";
+            open.InitialDirectory = @"C:\Users\Administrator\Desktop";
             open.Filter = "所有文件|*.*";
             open.ShowDialog();
 

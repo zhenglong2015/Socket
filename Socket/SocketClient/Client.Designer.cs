@@ -60,7 +60,7 @@
             this.txtPonit.Name = "txtPonit";
             this.txtPonit.Size = new System.Drawing.Size(126, 21);
             this.txtPonit.TabIndex = 2;
-            this.txtPonit.Text = "50000";
+            this.txtPonit.Text = "9050";
             // 
             // txtLog
             // 
