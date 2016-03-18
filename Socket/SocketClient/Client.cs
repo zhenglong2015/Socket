@@ -35,13 +35,14 @@ namespace SocketClient
             //获取要链接的服务器的Ip和端口号 
             IPEndPoint point = new IPEndPoint(ip, Convert.ToInt32(txtPonit.Text));
             socketSend.Connect(point);
-            ShowMsg("连接成功");
+            ShowMsg(socketSend.RemoteEndPoint+":"+"连接成功！");
             //开启一个线程不停的接收
 
             Thread th = new Thread(Recviec);
             th.IsBackground = true;
             th.Start();
         }
+        
         /// <summary>
         /// 客户端接收服务器消息
         /// </summary>
@@ -59,17 +60,20 @@ namespace SocketClient
                 }
                 else if (buffer[0] == 1)//发送的文件
                 {
-                    SaveFileDialog ssd = new SaveFileDialog();
-                    ssd.Title = "请选择要发送的文件";
-                    ssd.Filter = "所有文件|*.*";
-                    ssd.ShowDialog();
-
-                    string path = ssd.FileName;
-                    using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+                    this.Invoke(new MethodInvoker(delegate ()
                     {
-                        fs.Write(buffer, 1, r - 1);
-                        MessageBox.Show("保存成功！");
-                    }
+                        SaveFileDialog ssd = new SaveFileDialog();
+                        ssd.InitialDirectory = @"C:\Users\Administrator\Desktop";
+                        ssd.Title = "请选择要发送的文件";
+                        ssd.Filter = "所有文件|*.*";
+                        ssd.ShowDialog();
+                        string path = ssd.FileName;
+                        using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+                        {
+                            fs.Write(buffer, 1, r - 1);
+                            MessageBox.Show("保存成功！");
+                        }
+                    }));
                 }
                 else if (buffer[0] == 2)//发送的震动
                 {

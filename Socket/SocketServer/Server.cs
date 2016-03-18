@@ -25,7 +25,7 @@ namespace SocketServer
         {
             //在服务端创建一个负责监听的Ip地址和端口的Socket
             Socket socketWatch = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPAddress ip = IPAddress.Parse("192.168.1.202");
+            IPAddress ip = IPAddress.Any;
             //创建端口号对象
             IPEndPoint point = new IPEndPoint(ip, Convert.ToInt32(txtPoint.Text));
             socketWatch.Bind(point);
@@ -52,7 +52,6 @@ namespace SocketServer
                 //将远程连接的Ip地址和连接存入集合中
                 dic.Add(socketSend.RemoteEndPoint.ToString(), socketSend);
                 cobIPList.Items.Add(socketSend.RemoteEndPoint.ToString());
-                MessageBox.Show("连接成功");
               //  ShowMsg(socketWatch.RemoteEndPoint.ToString() + ":" + "连接成功！");
 
                 Thread th = new Thread(Recviec);
@@ -97,7 +96,7 @@ namespace SocketServer
         private void btnSendMsg_Click(object sender, EventArgs e)
         {
             string ip = cobIPList.SelectedItem.ToString();
-            byte[] buffer = Encoding.UTF8.GetBytes(txtSendMsg.Text.Trim());
+            byte[] buffer = Encoding.UTF8.GetBytes(txtReceiveMsg.Text.Trim());
             List<byte> list = new List<byte>();
             list.Add(0);
             list.AddRange(buffer);
@@ -136,6 +135,20 @@ namespace SocketServer
             byte[] buffer= new byte[1];
             buffer[0] = 2;
             dic[socketSend.RemoteEndPoint.ToString()].Send(buffer);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Invoke(new System.Windows.Forms.MethodInvoker(delegate() 
+            {
+                SaveFileDialog ssd = new SaveFileDialog();
+                ssd.InitialDirectory = @"C:\Users\Administrator\Desktop";
+                ssd.Title = "请选择要发送的文件";
+                ssd.Filter = "所有文件|*.*";
+                ssd.ShowDialog();
+            }));
+
+
         }
     }
 }
